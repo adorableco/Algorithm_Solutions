@@ -1,22 +1,21 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        result = []
         prev = []
-        next_ = []
+        result = []
+        _next = []
         
-        def dfs(elements: List[int]) -> None:
-            if len(elements) == 0:
+        def dfs(nums: List[int]):
+            if len(nums) == 0:
                 result.append(prev[:])
-                                
-            for i in range(len(elements)):
-                if elements[i] not in prev:
-                    next_ = elements[:]   
-                    next_.remove(elements[i])    
-                    prev.append(elements[i])
-                    dfs(next_)
+                
+            for num in nums:
+                elements = nums[:]
+                if num not in prev:
+                    prev.append(num)
+                    elements.remove(num)
+                    dfs(elements)
                     prev.pop()
         
         dfs(nums)
         return result
-                
                 
