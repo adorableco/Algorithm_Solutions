@@ -4,12 +4,12 @@ class Solution:
     
         graph = collections.defaultdict(list)
 
-        for x,y in sorted(tickets):
+        for x,y in sorted(tickets, reverse = True):
             graph[x].append(y)
 
         def dfs(dest):
             while graph[dest]:
-                dfs(graph[dest].pop(0))
+                dfs(graph[dest].pop())
             path.append(dest)
             
         
