@@ -3,15 +3,19 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        zero = nums.count(0)
-        one = nums.count(1)
+        red, white, blue = 0, 0, len(nums)
         
-        for i in range(zero):
-            nums[i] = 0
+        while white < blue:
+            if nums[white] < 1:
+                nums[red], nums[white] = nums[white], nums[red]
+                red += 1
+                white += 1
             
-        for i in range(one):
-            nums[zero + i] = 1
+            elif nums[white] > 1:
+                blue -= 1
+                nums[blue], nums[white] = nums[white], nums[blue]
             
-        for i in range(len(nums) - zero - one):
-            nums[one + zero + i] = 2
-                
+            else:
+                white += 1
+        
+            
