@@ -1,17 +1,16 @@
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         
-        dist = []
+        heap = []
+        
+        for (x,y) in points:
+            dist = x ** 2 + y ** 2
+            heapq.heappush(heap, (dist, x, y))
+        
         result = []
-        max_num = sys.maxsize
         
-        for point in points:
-            dist.append(point[0] ** 2 + point[1] ** 2)  
-        
-        for i in range(k):
-            index = dist.index(min(dist))
-            result.append(points[index])
-            dist[index] = max_num
+        for _ in range(k):
+            dist, x, y = heapq.heappop(heap)
+            result.append((x,y))
         
         return result
-                
