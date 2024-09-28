@@ -1,12 +1,10 @@
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        left, right = 0, len(numbers) - 1
 
-        while left < right:
-            if numbers[left] + numbers[right] < target:
-                left += 1
-            
-            elif numbers[left] + numbers[right] > target:
-                right -= 1
-            
-            else: return [left + 1, right + 1]
+        for k, v in enumerate(numbers):
+            remain = target - v
+
+            i = bisect.bisect_left(numbers, remain, k + 1)
+
+            if i < len(numbers) and numbers[i] == remain:
+                return [k + 1, i + 1]
