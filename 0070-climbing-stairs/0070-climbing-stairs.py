@@ -1,11 +1,16 @@
 class Solution:
+    stairs = collections.defaultdict(int)
+
     def climbStairs(self, n: int) -> int:
-        stairs = [0 for _ in range(n + 1)]
 
-        stairs[1] = 1
-        stairs[2] = 2
+        if n <= 2:
+            self.stairs[n] = n
+            return n
+        
+        if self.stairs[n]:
+            return self.stairs[n]
 
-        for i in range(3, n + 1):
-            stairs[i] = stairs[i - 1] + stairs[i - 2]
+        self.stairs[n] = self.climbStairs(n - 1) + self.climbStairs(n - 2)
+        return self.stairs[n]
 
-        return stairs[n]
+        
