@@ -5,11 +5,6 @@ class Solution {
     
     private boolean check(int row, int col, int n){
         for(int i = 0; i < n; i++){
-            if(i == col) continue;
-            if(boards[row][i] == true) return false; 
-        }
-        
-        for(int i = 0; i < n; i++){
             if(i == row) continue;
             if(boards[i][col] == true) return false; 
         }
