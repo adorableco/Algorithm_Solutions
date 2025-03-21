@@ -14,20 +14,11 @@ class Solution
         int rightB = rightA;
         
         while(leftA <= rightA && leftB <= rightB){
-            // A 최소값 * B 최대값
-            int minMax = A[leftA] * B[rightB];
             // A 최대값 * B 최소값
             int maxMin = B[leftB] * A[rightA];
-            
-            if(maxMin < minMax){
-                rightA--;
-                leftB++;
-                answer += maxMin;
-            }else {
-                rightB--;
-                leftA++;
-                answer += minMax;
-            }       
+            rightA--;
+            leftB++;
+            answer += maxMin;
         }      
         return answer;
     }
