@@ -1,3 +1,4 @@
+```plantuml
 @startuml
 hide empty description
 
@@ -24,3 +25,4 @@ S9 -left-> S10 : 1
 S10 -up-> S7 : 0
 S10 -up-> S2 : 1
 @enduml
+```
