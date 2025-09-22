@@ -1,12 +1,13 @@
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 class Solution {
+    private static int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     
-    public static class Node{
-        int x;
-        int y;
+    private class Node {
+        int x, y;
         
-        public Node(int x, int y){
+        public Node (int x, int y){
             this.x = x;
             this.y = y;
         }
@@ -15,48 +16,40 @@ class Solution {
     public int solution(int[][] maps) {
         int n = maps.length;
         int m = maps[0].length;
-        int[][] dist = new int[n][m];
-        int[][] visited = new int[n][m];
+        int[][] answer = new int[n][m];
+        boolean[][] visited = new boolean[n][m];
+        
+        for(int[] ans : answer){
+            Arrays.fill(ans, Integer.MAX_VALUE);
+        }
+        
         ArrayDeque<Node> queue = new ArrayDeque<>();
         
-         for(int i = 0; i < n; i ++){
-            for(int j = 0; j < m; j++){
-                dist[i][j] = Integer.MAX_VALUE;
+        queue.add(new Node(0 , 0));
+        answer[0][0] = 1;
+        
+        while (!queue.isEmpty()) {
+            Node now = queue.poll();
+            
+            for(int i = 0; i < 4; i++){
+                int nextX = now.x + dirs[i][0];
+                int nextY = now.y + dirs[i][1];
+                
+                if (nextX < 0 || nextX >= n || nextY < 0 || nextY >= m)
+                    continue;
+                
+                if (maps[nextX][nextY] == 0 || visited[nextX][nextY])
+                    continue;
+                
+                visited[nextX][nextY] = true;
+                queue.add(new Node(nextX, nextY));
+                
+                if (answer[nextX][nextY] > answer[now.x][now.y] + 1){
+                    answer[nextX][nextY] = answer[now.x][now.y] + 1;
+                }
             }
         }
         
-        dist[0][0] = 1;
-        
-        queue.addLast(new Node(0, 0));
-        
-        while(!queue.isEmpty()){
-            Node cur = queue.pollFirst();
-            
-            if(maps[cur.x][cur.y] == 0) continue;
-            
-            if(cur.y + 1 < m && maps[cur.x][cur.y + 1] == 1 && visited[cur.x][cur.y + 1] == 0){
-                dist[cur.x][cur.y + 1] = Math.min(dist[cur.x][cur.y + 1], dist[cur.x][cur.y] + 1);
-                queue.addLast(new Node(cur.x, cur.y + 1));
-                visited[cur.x][cur.y + 1] = 1;
-            }
-            if(cur.x + 1 < n && maps[cur.x + 1][cur.y] == 1 && visited[cur.x + 1][cur.y] == 0){
-                dist[cur.x + 1][cur.y] = Math.min(dist[cur.x + 1][cur.y], dist[cur.x][cur.y] + 1);
-                queue.addLast(new Node(cur.x + 1, cur.y));
-                visited[cur.x + 1][cur.y] = 1;
-            }
-              if(cur.y - 1 >= 0 && maps[cur.x][cur.y - 1] == 1 && visited[cur.x][cur.y - 1] == 0){
-                dist[cur.x][cur.y - 1] = Math.min(dist[cur.x][cur.y - 1], dist[cur.x][cur.y] + 1);
-                queue.addLast(new Node(cur.x, cur.y - 1));
-                  visited[cur.x][cur.y - 1] = 1;
-            }
-            if(cur.x - 1 >= 0 && maps[cur.x - 1][cur.y] == 1 && visited[cur.x - 1][cur.y] == 0){
-                dist[cur.x - 1][cur.y] = Math.min(dist[cur.x - 1][cur.y], dist[cur.x][cur.y] + 1);
-                queue.addLast(new Node(cur.x - 1, cur.y));
-                visited[cur.x - 1][cur.y] = 1;
-            }
-        }
-           
-        if(dist[n - 1][m - 1] == Integer.MAX_VALUE) return -1;
-        return dist[n - 1][m - 1];
+        return visited[n - 1][m - 1] ? answer[n - 1][m - 1] : -1;
     }
 }
